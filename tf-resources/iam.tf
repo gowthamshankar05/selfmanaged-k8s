@@ -75,3 +75,34 @@ resource "aws_iam_instance_profile" "eks_node_role_profile" {
   role = aws_iam_role.eks_node_role.name
 }
 
+resource "kubernetes_config_map" "aws_auth" {
+  metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
+
+  data       = local.aws_auth_configmap_data
+
+  lifecycle {
+    # We are ignoring the data here since we will manage it with the resource below
+    # This is only intended to be used in scenarios where the configmap does not exist
+    ignore_changes = [data, metadata[0].labels, metadata[0].annotations]
+  }
+}
+
+locals {
+  aws_auth_configmap_data = {
+    "mapRoles" = jsonencode([
+      {
+        "rolearn"  = aws_iam_role.eks_node_role.arn
+        "username" = "system:node:{{EC2PrivateDNSName}}"
+        "groups"   = ["system:bootstrappers", "system:nodes"]
+      },
+      {
+        "rolearn"  = "arn:aws:iam::717340753727:user/gowtham"
+        "username" = "gowtham"
+        "groups"   = ["system:masters"]
+      }
+    ])
+  }
+}
