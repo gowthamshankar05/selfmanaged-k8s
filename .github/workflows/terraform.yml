@@ -72,7 +72,7 @@ jobs:
         working-directory: tf-resources
         run: terraform apply -auto-approve
 
-  terraform-rbac
+  terraform-rbac:
     needs: terraform-apply
     runs-on: ubuntu-latest
     steps:
