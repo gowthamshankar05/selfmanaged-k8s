@@ -5,7 +5,7 @@ resource "kubernetes_config_map" "aws_auth" {
     namespace = "kube-system"
   }
 
-  data       = local.aws_auth_configmap_data
+  data = local.aws_auth_configmap_data
 
   lifecycle {
     # We are ignoring the data here since we will manage it with the resource below
@@ -19,7 +19,7 @@ locals {
   aws_auth_configmap_data = {
     "mapRoles" = jsonencode([
       {
-        "rolearn"  = aws_iam_role.eks_node_role.arn
+        "rolearn"  = data.terraform_remote_state.resources.outputs.iam_node_role_arn
         "username" = "system:node:{{EC2PrivateDNSName}}"
         "groups"   = ["system:bootstrappers", "system:nodes"]
       },
