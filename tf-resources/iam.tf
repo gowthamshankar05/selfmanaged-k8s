@@ -66,7 +66,7 @@ locals {
   aws_auth_configmap_data = {
     "mapRoles" = jsonencode([
       {
-        "rolearn"  = data.terraform_remote_state.resources.outputs.iam_node_role_arn
+        "rolearn"  = iam_role.eks_node_role.arn
         "username" = "system:node:{{EC2PrivateDNSName}}"
         "groups"   = ["system:bootstrappers", "system:nodes"]
       },
