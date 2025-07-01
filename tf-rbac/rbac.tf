@@ -12,7 +12,6 @@ resource "kubernetes_config_map" "aws_auth" {
     # This is only intended to be used in scenarios where the configmap does not exist
     ignore_changes = [data, metadata[0].labels, metadata[0].annotations]
   }
-  depends_on = [aws_eks_cluster.eks_cluster, aws_iam_role_policy_attachment.eks_worker_node_policy, aws_iam_role_policy_attachment.eks_cni_policy, aws_iam_role_policy_attachment.eks_container_registry_policy, aws_iam_role_policy_attachment.eks_autoscaling_policy]
 }
 
 locals {
