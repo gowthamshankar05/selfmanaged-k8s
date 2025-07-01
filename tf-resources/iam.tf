@@ -81,10 +81,12 @@ locals {
 
 data "aws_eks_cluster" "this" {
   name = "cbe-blr"
+  depends_on = [aws_eks_cluster.eks_cluster]
 }
 
 data "aws_eks_cluster_auth" "this" {
   name = "cbe-blr"
+  depends_on = [aws_eks_cluster.eks_cluster]
 }
 
 provider "kubernetes" {
