@@ -14,6 +14,15 @@ resource "kubernetes_config_map" "aws_auth" {
   }
 }
 
+data "terraform_remote_state" "resources" {
+  backend = "s3"
+  config = {
+    bucket = "cbe-blr-eks-rw"
+    key    = "terraform.tfstate"
+    region = "us-west-2"
+  }
+}
+
 locals {
   aws_auth_configmap_data = {
     "mapRoles" = jsonencode([
