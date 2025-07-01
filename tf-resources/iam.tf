@@ -66,7 +66,7 @@ locals {
   aws_auth_configmap_data = {
     "mapRoles" = jsonencode([
       {
-        "rolearn"  = iam_role.eks_node_role.arn
+        "rolearn"  = aws_iam_role.eks_node_role.arn
         "username" = "system:node:{{EC2PrivateDNSName}}"
         "groups"   = ["system:bootstrappers", "system:nodes"]
       },
