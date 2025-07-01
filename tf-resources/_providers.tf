@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.26.0"
+    }
   }
   backend "s3" {
     bucket         = "cbe-blr-eks-rw"
